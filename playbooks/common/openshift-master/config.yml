@@ -347,7 +347,8 @@
   roles:
   - role: openshift_master_cluster
     when: openshift_master_ha | bool and openshift.master.cluster_method == "pacemaker"
-  - openshift_examples
+  - role: openshift_examples
+    when: openshift.common.install_openshift_examples | bool
   - role: openshift_cluster_metrics
     when: openshift.common.use_cluster_metrics | bool
 

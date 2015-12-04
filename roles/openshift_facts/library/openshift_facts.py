@@ -381,6 +381,23 @@ def set_master_selectors(facts):
                 facts['master']['registry_selector'] = selector
     return facts
 
+def set_openshift_examples_facts_if_unset(facts):
+    """ Set openshift_examples facts if not already present in facts dict
+            dict: the facts dict updated with the generated openshift_exmaples
+            facts if missing
+        Args:
+            facts (dict): existing facts
+        Returns:
+            dict: the facts dict updated with the generated openshift_examples
+            facts if they were not already present
+
+    """
+    if 'common' in facts:
+        if 'install_openshift_examples' not in facts['common']:
+            install_openshift_examples = False
+            facts['common']['install_openshift_examples'] = install_openshift_examples
+    return facts
+
 def set_metrics_facts_if_unset(facts):
     """ Set cluster metrics facts if not already present in facts dict
             dict: the facts dict updated with the generated cluster metrics facts if
@@ -1024,6 +1041,7 @@ class OpenShiftFacts(object):
         facts = set_flannel_facts_if_unset(facts)
         facts = set_node_schedulability(facts)
         facts = set_master_selectors(facts)
+        facts = set_openshift_examples_facts_if_unset(facts)
         facts = set_metrics_facts_if_unset(facts)
         facts = set_identity_providers_if_unset(facts)
         facts = set_sdn_facts_if_unset(facts, self.system_facts)
